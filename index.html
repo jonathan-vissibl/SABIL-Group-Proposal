@@ -149,22 +149,23 @@
 
         .animate {
             opacity: 0;
+            will-change: transform, opacity, filter;
         }
 
         .animate.visible {
-            animation: morphIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: morphIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         .animate.visible.slide-reveal {
-            animation: slideReveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: slideReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         .animate.visible.scale-reveal {
-            animation: scaleReveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: scaleReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         .animate.visible.glow-in {
-            animation: glowIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: glowIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .animate.exiting {
@@ -180,58 +181,29 @@
             animation: none;
         }
 
-        /* Staggered children animation */
+        /* Staggered children animation - key is to set transition on base state */
         .stagger-children > * {
             opacity: 0;
             transform: translateY(30px);
+            filter: blur(4px);
+            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+                        filter 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .stagger-children.visible > *:nth-child(1) {
+        .stagger-children.visible > * {
             opacity: 1;
             transform: translateY(0);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0s,
-                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0s;
+            filter: blur(0);
         }
 
-        .stagger-children.visible > *:nth-child(2) {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
-                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
-        }
-
-        .stagger-children.visible > *:nth-child(3) {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s,
-                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
-        }
-
-        .stagger-children.visible > *:nth-child(4) {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.45s,
-                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
-        }
-
-        .stagger-children.visible > *:nth-child(5) {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s,
-                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s;
-        }
-
-        .stagger-children.visible > *:nth-child(6) {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.75s,
-                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.75s;
-        }
-
-        /* Reset transform on hover so card can use its own hover effect */
-        .stagger-children.visible > *:hover {
-            transform: translateY(-4px);
-        }
+        /* Stagger delays */
+        .stagger-children > *:nth-child(1) { transition-delay: 0s; }
+        .stagger-children > *:nth-child(2) { transition-delay: 0.15s; }
+        .stagger-children > *:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-children > *:nth-child(4) { transition-delay: 0.45s; }
+        .stagger-children > *:nth-child(5) { transition-delay: 0.6s; }
+        .stagger-children > *:nth-child(6) { transition-delay: 0.75s; }
 
         .animate-delay-1 { animation-delay: 0.1s; }
         .animate-delay-2 { animation-delay: 0.2s; }
@@ -409,13 +381,13 @@
             border-radius: 12px;
             padding: 32px;
             box-shadow: var(--shadow-md);
-            transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card:hover {
             box-shadow: var(--shadow-lg);
             transform: translateY(-4px) !important;
+            transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .card-icon {
@@ -1359,7 +1331,7 @@
         // Enhanced Intersection Observer for smooth bidirectional scroll animations
         const observerOptions = {
             threshold: 0.15,
-            rootMargin: '0px 0px -100px 0px'
+            rootMargin: '0px 0px -80px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
