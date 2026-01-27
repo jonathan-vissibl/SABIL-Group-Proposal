@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated Management System Implementation | Vissibl for SABIL Group</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a1628;
+            --primary-navy: #1a2d4a;
+            --accent-cyan: #00d4aa;
+            --accent-blue: #00b4d8;
+            --text-primary: #1a1a2e;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-section: #f1f5f9;
+            --border-light: rgba(0, 0, 0, 0.06);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate {
+            opacity: 0;
+        }
+
+        .animate.visible {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .animate-delay-1 { animation-delay: 0.1s; }
+        .animate-delay-2 { animation-delay: 0.2s; }
+        .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-4 { animation-delay: 0.4s; }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-navy) 50%, #1e3a5f 100%);
+            background-size: 200% 200%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: gradientMove 12s ease infinite;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 170, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 180, 216, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--bg-white);
+            position: relative;
+            z-index: 1;
+            padding: 60px 24px;
+        }
+
+        .hero-logo {
+            display: block;
+            max-width: 280px;
+            margin: 0 auto 60px auto;
+            filter: brightness(0) invert(1);
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.15);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            color: var(--accent-cyan);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        .hero-client-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+            opacity: 0;
+        }
+
+        .hero-client {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .hero-client strong {
+            color: var(--bg-white);
+            font-weight: 500;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        section:nth-child(even) {
+            background: var(--bg-section);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--accent-cyan);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(32px, 4vw, 42px);
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 24px 0;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-white);
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-navy));
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--bg-light);
+        }
+
+        /* Risk level badges */
+        .risk-high {
+            display: inline-block;
+            background: #fee;
+            color: #c00;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .risk-medium {
+            display: inline-block;
+            background: #fef3cd;
+            color: #856404;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .risk-low {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-cyan), var(--accent-blue));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            border: 3px solid var(--bg-white);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.2);
+        }
+
+        .timeline-item h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+        }
+
+        /* List styles */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 28px;
+            position: relative;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* Price Box */
+        .price-box {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-navy));
+            color: white;
+            padding: 48px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .price-amount {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 20px 0;
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        .price-currency {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .hero {
+                min-height: auto;
+                padding: 60px 0;
+            }
+
+            section {
+                page-break-inside: avoid;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid var(--border-light);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <img src="vissibl_logo.svg" alt="Vissibl" class="hero-logo">
+            <span class="hero-label">Integrated Management System Proposal</span>
+            <h1>ISO 9001 | ISO 14001 | ISO 45001<br>Implementation Program</h1>
+            <p class="hero-subtitle">Comprehensive IMS implementation across 14 locations for SABIL Group</p>
+            <div class="hero-client-section">
+                <p class="hero-client">Prepared for</p>
+                <p class="hero-client"><strong>SABIL Group | National Grain Supply Company</strong></p>
+                <p class="hero-client">Kingdom of Saudi Arabia</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Executive Summary</span>
+                <h2>Transforming SABIL's Operations Through Excellence</h2>
+            </div>
+            <p>SABIL Group, as Saudi Arabia's national grain supply company and a cornerstone of Vision 2030, requires an integrated management system that ensures operational excellence, environmental stewardship, and worker safety across all 14 locations. Vissibl proposes a comprehensive implementation of ISO 9001:2015 (Quality Management), ISO 14001:2015 (Environmental Management), and ISO 45001:2018 (Occupational Health & Safety Management) tailored specifically for the grain storage and logistics sector.</p>
+
+            <p>Our approach combines deep industry expertise with cutting-edge digital tools to create a resilient, sustainable, and compliant operational framework. This proposal outlines our methodology for identifying risks, implementing controls, training your workforce, and achieving certification across your entire network of silos, port facilities, and headquarters operations.</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h4>ISO 9001:2015</h4>
+                    <p>Quality Management System ensuring consistent grain quality, traceability, and customer satisfaction across all procurement and storage operations.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌱</div>
+                    <h4>ISO 14001:2015</h4>
+                    <p>Environmental Management System controlling emissions, waste, and resource consumption while ensuring compliance with Saudi environmental regulations.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h4>ISO 45001:2018</h4>
+                    <p>Occupational Health & Safety System protecting your 900+ employees through systematic hazard identification and risk mitigation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk Identification Approach -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Risk Management Framework</span>
+                <h2>Comprehensive Risk Identification & Mitigation</h2>
+            </div>
+            <p>Our implementation begins with thorough risk identification across all SABIL locations and operations. We employ a systematic approach combining industry best practices, regulatory requirements, and site-specific assessments to identify, evaluate, and mitigate risks across three critical dimensions:</p>
+
+            <h3 style="margin-top: 48px;">Strategic & Operational Risks</h3>
+            <p>These enterprise-level risks affect SABIL's ability to fulfill its mission as Saudi Arabia's national grain supplier:</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Risk Category</th>
+                            <th>Description</th>
+                            <th>Impact</th>
+                            <th>Likelihood</th>
+                            <th>Risk Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Supply Chain Disruption</strong></td>
+                            <td>Interruption of international grain imports due to geopolitical events, logistics failures, or supplier issues</td>
+                            <td>Critical</td>
+                            <td>Medium</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Food Safety Contamination</strong></td>
+                            <td>Mycotoxin contamination, pest infestation, or quality degradation affecting stored grain</td>
+                            <td>Critical</td>
+                            <td>Medium</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Regulatory Non-Compliance</strong></td>
+                            <td>Failure to meet SFDA, SASO, or environmental requirements leading to penalties or operational restrictions</td>
+                            <td>Major</td>
+                            <td>Low</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage Capacity Constraints</strong></td>
+                            <td>Insufficient silo capacity during peak harvest or import periods</td>
+                            <td>Major</td>
+                            <td>Medium</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cybersecurity Threats</strong></td>
+                            <td>Cyber attacks affecting inventory management, traceability, or operational systems</td>
+                            <td>Major</td>
+                            <td>Medium</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Climate & Weather Events</strong></td>
+                            <td>Extreme heat, sandstorms, or flooding affecting operations or grain quality</td>
+                            <td>Moderate</td>
+                            <td>High</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 48px;">Quality Management Risks (ISO 9001)</h3>
+            <p>Department-specific quality risks that could impact product integrity and customer satisfaction:</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Risk</th>
+                            <th>Impact</th>
+                            <th>Severity</th>
+                            <th>Mitigation Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3"><strong>Procurement & Supply Chain</strong></td>
+                            <td>Supplier delivers grain below specification (moisture, protein, contaminants)</td>
+                            <td>Critical</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Supplier qualification program, pre-shipment inspections, certificate of analysis requirements</td>
+                        </tr>
+                        <tr>
+                            <td>Lack of traceability from origin to storage</td>
+                            <td>Major</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                            <td>Batch tracking system, blockchain integration, comprehensive documentation requirements</td>
+                        </tr>
+                        <tr>
+                            <td>Inadequate contract specifications leading to disputes</td>
+                            <td>Moderate</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                            <td>Standardized contract templates, quality clauses aligned with SASO standards</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3"><strong>Warehouse & Storage Operations</strong></td>
+                            <td>Cross-contamination between different grain types or batches</td>
+                            <td>Critical</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Segregation protocols, cleaning procedures between batches, dedicated equipment</td>
+                        </tr>
+                        <tr>
+                            <td>Inadequate temperature/humidity control causing spoilage</td>
+                            <td>Critical</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Automated monitoring systems, aeration protocols, regular quality testing</td>
+                        </tr>
+                        <tr>
+                            <td>Pest infestation compromising grain quality</td>
+                            <td>Critical</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Integrated pest management program, fumigation protocols, preventive monitoring</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3"><strong>Quality Control Laboratory</strong></td>
+                            <td>Calibration drift in testing equipment producing inaccurate results</td>
+                            <td>Major</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Calibration schedule, certified reference materials, proficiency testing participation</td>
+                        </tr>
+                        <tr>
+                            <td>Sample handling errors affecting test validity</td>
+                            <td>Major</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                            <td>Sampling protocols per ISO 24333, chain of custody procedures, staff training</td>
+                        </tr>
+                        <tr>
+                            <td>Delayed testing resulting in quality degradation before detection</td>
+                            <td>Moderate</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                            <td>Testing turnaround time KPIs, adequate lab staffing, rapid test methods</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 48px;">Occupational Health & Safety Risks (ISO 45001)</h3>
+            <p>Worker safety hazards requiring systematic controls and protective measures:</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Hazard/Risk</th>
+                            <th>Potential Impact</th>
+                            <th>Severity</th>
+                            <th>Mitigation & Control Measures</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3"><strong>Silo Operations</strong></td>
+                            <td>Grain dust explosions in enclosed spaces</td>
+                            <td>Fatality, major property damage</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Explosion-proof equipment, dust suppression systems, hot work permits, regular cleaning</td>
+                        </tr>
+                        <tr>
+                            <td>Confined space asphyxiation or engulfment in grain</td>
+                            <td>Fatality</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Confined space entry procedures, atmospheric testing, rescue equipment, buddy system</td>
+                        </tr>
+                        <tr>
+                            <td>Falls from height during silo inspection/maintenance</td>
+                            <td>Serious injury/fatality</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Fall protection systems, guardrails, safety harnesses, regular inspection of access equipment</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3"><strong>Port & Transportation</strong></td>
+                            <td>Vehicle-pedestrian collisions in loading areas</td>
+                            <td>Serious injury/fatality</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Traffic management plan, segregated walkways, reversing alarms, high-visibility PPE</td>
+                        </tr>
+                        <tr>
+                            <td>Struck by moving conveyor equipment</td>
+                            <td>Serious injury</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                            <td>Machine guarding, lockout/tagout procedures, emergency stop buttons, safety induction</td>
+                        </tr>
+                        <tr>
+                            <td>Heat stress during outdoor operations (Saudi climate)</td>
+                            <td>Heat exhaustion, heat stroke</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                            <td>Heat illness prevention program, work-rest schedules, hydration stations, medical surveillance</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3"><strong>Maintenance Department</strong></td>
+                            <td>Electrical shock during equipment repair</td>
+                            <td>Serious injury/fatality</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Lockout/tagout procedures, electrical safety training, qualified electricians, PPE requirements</td>
+                        </tr>
+                        <tr>
+                            <td>Exposure to fumigation chemicals (phosphine)</td>
+                            <td>Acute poisoning</td>
+                            <td><span class="risk-high">HIGH</span></td>
+                            <td>Certified fumigation operators, gas monitoring, respiratory protection, emergency response plan</td>
+                        </tr>
+                        <tr>
+                            <td>Musculoskeletal injuries from manual handling</td>
+                            <td>Chronic injury, lost time</td>
+                            <td><span class="risk-medium">MEDIUM</span></td>
+                            <td>Mechanical handling aids, ergonomic assessments, manual handling training, job rotation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Regulatory Compliance -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Regulatory Framework</span>
+                <h2>Ensuring Compliance with Saudi Requirements</h2>
+            </div>
+            <p>Vissibl's implementation ensures SABIL meets all applicable Saudi Arabian regulations while integrating international best practices. Our IMS framework provides systematic compliance with:</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🏛️ Food Safety & Quality</h4>
+                    <ul>
+                        <li>Saudi Food & Drug Authority (SFDA) regulations</li>
+                        <li>SFDA.FD 47: Grain storage facility requirements</li>
+                        <li>SASO standards for grain quality parameters</li>
+                        <li>GCC Food Law requirements</li>
+                        <li>Mycotoxin limits (SASO 1844 for aflatoxins)</li>
+                        <li>Traceability and recall procedures</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🌍 Environmental Protection</h4>
+                    <ul>
+                        <li>Royal Decree M/34/1422H (General Environmental Law 2001)</li>
+                        <li>Environmental Impact Assessment requirements</li>
+                        <li>Air quality standards and emission limits</li>
+                        <li>Waste management regulations</li>
+                        <li>Water conservation and discharge permits</li>
+                        <li>Ministry of Environment reporting obligations</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>👷 Occupational Safety & Health</h4>
+                    <ul>
+                        <li>Saudi Labor Law (Royal Decree M/51)</li>
+                        <li>Regulation of Occupational Safety and Health (2018)</li>
+                        <li>Requirement for written OHS management system</li>
+                        <li>GOSI (General Organization for Social Insurance) requirements</li>
+                        <li>Workplace safety inspections and audits</li>
+                        <li>Incident reporting and investigation protocols</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Methodology -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Our Approach</span>
+                <h2>Proven Implementation Methodology</h2>
+            </div>
+
+            <h3>Phase 1: Assessment & Gap Analysis</h3>
+            <p>Comprehensive evaluation of current state across all 14 locations:</p>
+            <ul>
+                <li>Document review of existing procedures, records, and systems</li>
+                <li>On-site audits at each location (Riyadh HQ, Al-Jouf, Al-Kharj, Dammam, Al-Qassim, Tabuk, Jazan, Jeddah, Hail, Khamis Mushait, Wadi ad-Dawasir, Al-Ahsa, Al-Jumum, Yanbu)</li>
+                <li>Staff interviews and competency assessments</li>
+                <li>Hazard identification and risk assessment workshops</li>
+                <li>Gap analysis against ISO 9001, 14001, and 45001 requirements</li>
+                <li>Regulatory compliance verification</li>
+                <li>Identification of quick wins and priority areas</li>
+            </ul>
+
+            <h3 style="margin-top: 40px;">Phase 2: System Design & Documentation</h3>
+            <p>Development of integrated management system tailored to SABIL's operations:</p>
+            <ul>
+                <li>Integrated Management Manual covering all three standards</li>
+                <li>Quality, Environmental, and OHS Policies approved by top management</li>
+                <li>Process maps for grain procurement, storage, handling, and distribution</li>
+                <li>Risk and opportunity registers for each location and process</li>
+                <li>Documented procedures and work instructions (bilingual Arabic/English)</li>
+                <li>Forms, checklists, and record templates</li>
+                <li>Key Performance Indicators (KPIs) and monitoring plans</li>
+                <li>Emergency response and business continuity procedures</li>
+            </ul>
+
+            <h3 style="margin-top: 40px;">Phase 3: Digital Platform Implementation</h3>
+            <p>Deployment of Vissibl's cloud-based IMS software across all locations:</p>
+            <ul>
+                <li>Centralized document management with version control</li>
+                <li>Real-time risk register and incident reporting</li>
+                <li>Audit management and corrective action tracking</li>
+                <li>Training matrix and competency management</li>
+                <li>Supplier evaluation and approved supplier list</li>
+                <li>Non-conformance and complaint handling workflows</li>
+                <li>Management review dashboard with analytics</li>
+                <li>Mobile app for field inspections and hazard reporting</li>
+                <li>Integration capabilities with existing SABIL systems (ERP, LIMS)</li>
+            </ul>
+
+            <h3 style="margin-top: 40px;">Phase 4: Training & Competency Development</h3>
+            <p>Comprehensive training program for all 900+ SABIL employees:</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Training Program</th>
+                            <th>Target Audience</th>
+                            <th>Duration</th>
+                            <th>Delivery Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>IMS Awareness & Context</strong></td>
+                            <td>All employees</td>
+                            <td>4 hours</td>
+                            <td>On-site workshops at each location</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Internal Auditor Training (ISO 9001/14001/45001)</strong></td>
+                            <td>Selected staff (3-4 per location)</td>
+                            <td>3 days</td>
+                            <td>Certified training course</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Risk Assessment & Management</strong></td>
+                            <td>Department heads, supervisors</td>
+                            <td>2 days</td>
+                            <td>Interactive workshops</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Root Cause Analysis & Problem Solving</strong></td>
+                            <td>Quality team, managers</td>
+                            <td>1 day</td>
+                            <td>On-site training</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Environmental Aspects & Impacts</strong></td>
+                            <td>Operations staff, environmental coordinators</td>
+                            <td>1 day</td>
+                            <td>Location-specific workshops</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hazard Identification & Job Safety Analysis</strong></td>
+                            <td>Supervisors, safety officers</td>
+                            <td>2 days</td>
+                            <td>Practical field training</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Incident Investigation & Reporting</strong></td>
+                            <td>Safety team, managers</td>
+                            <td>1 day</td>
+                            <td>Case study based</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Management Review & Leadership</strong></td>
+                            <td>Senior management, management representatives</td>
+                            <td>1 day</td>
+                            <td>Executive session at Riyadh HQ</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vissibl Software Platform Training</strong></td>
+                            <td>All system users</td>
+                            <td>4 hours</td>
+                            <td>Hands-on computer training</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Grain-Specific Quality & Safety</strong></td>
+                            <td>Warehouse, quality control, maintenance staff</td>
+                            <td>2 days</td>
+                            <td>Technical workshops</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 40px;">Phase 5: Implementation & Operational Readiness</h3>
+            <p>Putting systems into practice with continuous support:</p>
+            <ul>
+                <li>Pilot implementation at 2-3 locations before full rollout</li>
+                <li>Support for initial risk assessments at each location</li>
+                <li>Facilitation of management reviews</li>
+                <li>Coaching for internal audit teams during first audit cycle</li>
+                <li>Corrective action implementation support</li>
+                <li>KPI tracking and performance improvement initiatives</li>
+                <li>Preparation of objective evidence for certification audits</li>
+            </ul>
+
+            <h3 style="margin-top: 40px;">Phase 6: Certification Audit Support</h3>
+            <p>Ensuring successful certification at all locations:</p>
+            <ul>
+                <li>Pre-assessment audits to identify readiness gaps</li>
+                <li>Coordination with accredited certification body</li>
+                <li>On-site support during Stage 1 and Stage 2 audits</li>
+                <li>Real-time consultation during auditor findings</li>
+                <li>Support for closing any non-conformances</li>
+                <li>Achievement of ISO 9001, 14001, and 45001 certification for all 14 locations</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Key Mitigation Strategies -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Risk Controls</span>
+                <h2>Critical Mitigation Strategies We Implement</h2>
+            </div>
+            <p>Based on our extensive experience in the grain storage sector, Vissibl will implement the following proven control measures:</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h4>Supplier Qualification Program</h4>
+                    <p>Comprehensive supplier assessment criteria, pre-shipment inspections, certificate of analysis requirements, and performance scorecards to ensure only quality grain enters SABIL facilities.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📡</div>
+                    <h4>Automated Grain Monitoring</h4>
+                    <p>IoT sensors for real-time temperature, humidity, and pest activity monitoring with automated alerts to prevent quality degradation and enable rapid intervention.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧪</div>
+                    <h4>Laboratory Quality Assurance</h4>
+                    <p>Calibration programs, proficiency testing participation, certified reference materials, and method validation to ensure accurate and reliable quality testing.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🦠</div>
+                    <h4>Integrated Pest Management</h4>
+                    <p>Preventive monitoring systems, fumigation protocols, facility proofing measures, and professional pest control partnerships to eliminate infestation risks.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔥</div>
+                    <h4>Dust Explosion Prevention</h4>
+                    <p>Explosion-proof equipment specification, dust suppression systems, hot work permit procedures, and housekeeping protocols to eliminate explosion hazards.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚫</div>
+                    <h4>Confined Space Safety Program</h4>
+                    <p>Entry permits, atmospheric testing, continuous monitoring, rescue procedures, and specialized training to protect workers in silos and enclosed spaces.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚠️</div>
+                    <h4>Fall Protection Systems</h4>
+                    <p>Guardrails, safety harnesses, anchor points, ladder cages, and regular inspection protocols for all work at height on silos and elevated equipment.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔐</div>
+                    <h4>Energy Isolation (LOTO)</h4>
+                    <p>Comprehensive lockout/tagout procedures, equipment-specific LOTO points, authorized personnel training, and verification protocols for maintenance safety.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">☀️</div>
+                    <h4>Heat Stress Prevention</h4>
+                    <p>Work-rest schedules, acclimatization protocols, hydration programs, cooling stations, and medical surveillance adapted to Saudi Arabia's extreme climate.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">♻️</div>
+                    <h4>Environmental Controls</h4>
+                    <p>Dust emission controls, waste segregation programs, water conservation measures, and environmental monitoring to meet Ministry of Environment requirements.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📋</div>
+                    <h4>Traceability System</h4>
+                    <p>Batch coding, chain of custody documentation, digital traceability in Vissibl platform, and rapid recall procedures meeting SFDA requirements.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚨</div>
+                    <h4>Emergency Response Plans</h4>
+                    <p>Location-specific emergency procedures, fire safety systems, evacuation drills, first aid capabilities, and coordination with local emergency services.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Timeline -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Project Schedule</span>
+                <h2>Implementation Milestones</h2>
+            </div>
+            <p>Our implementation follows a structured timeline designed to achieve certification within 12 months while minimizing operational disruption:</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Month 1-2: Project Initiation & Assessment</h4>
+                    <p><strong>Deliverables:</strong> Kick-off meeting, project plan, site visits to all 14 locations, gap analysis report, priority action plan</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Month 3-4: System Design & Documentation</h4>
+                    <p><strong>Deliverables:</strong> Integrated Management Manual, policies, process documentation, risk registers, procedure drafts, KPI framework</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Month 5-6: Software Deployment & Training Wave 1</h4>
+                    <p><strong>Deliverables:</strong> Vissibl platform configured and deployed, management and internal auditor training completed, awareness training at all locations</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Month 7-8: Pilot Implementation & Refinement</h4>
+                    <p><strong>Deliverables:</strong> Pilot implementation at 3 locations, system refinements based on feedback, specialized technical training, initial audits conducted</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Month 9-10: Full Rollout & Operational Integration</h4>
+                    <p><strong>Deliverables:</strong> IMS operational at all 14 locations, first management review completed, 3 months of objective evidence generated, corrective actions tracked</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Month 11: Pre-Assessment & Readiness Verification</h4>
+                    <p><strong>Deliverables:</strong> Pre-assessment audits at all locations, readiness report, final preparations, certification body selected and Stage 1 scheduled</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Month 12: Certification Audits</h4>
+                    <p><strong>Deliverables:</strong> Stage 1 and Stage 2 certification audits completed, non-conformances closed, ISO 9001, 14001, and 45001 certificates issued for all 14 locations</p>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-light); padding: 32px; border-radius: 12px; margin-top: 48px;">
+                <h4>Post-Certification Support</h4>
+                <p>Vissibl provides 6 months of post-certification support including:</p>
+                <ul>
+                    <li>Quarterly check-ins and performance reviews</li>
+                    <li>Ongoing software support and updates</li>
+                    <li>Assistance with first surveillance audit preparation</li>
+                    <li>Continuous improvement consulting</li>
+                    <li>Access to Vissibl knowledge base and helpdesk</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Investment</span>
+                <h2>Comprehensive IMS Implementation Package</h2>
+            </div>
+
+            <div class="price-box">
+                <h3>Complete Implementation Program</h3>
+                <p style="color: var(--text-light); margin-bottom: 0;">ISO 9001 | ISO 14001 | ISO 45001 Implementation<br>14 Locations | 900+ Employees | 12 Month Program</p>
+                <div class="price-amount">$100,000 USD</div>
+                <div class="price-currency">Approximately 375,000 SAR</div>
+                <p style="color: var(--text-light); margin-top: 20px; font-size: 14px;">Exchange rate: 1 USD = 3.75 SAR (Saudi Riyal pegged rate)</p>
+            </div>
+
+            <h3 style="margin-top: 48px;">Package Includes</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>✓ Consulting Services</h4>
+                    <ul style="margin-left: 0;">
+                        <li>Gap analysis audits at all 14 locations</li>
+                        <li>IMS design and documentation</li>
+                        <li>Risk assessment facilitation</li>
+                        <li>On-site implementation support</li>
+                        <li>Internal audit coaching</li>
+                        <li>Certification audit support</li>
+                        <li>6 months post-certification support</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>✓ Training & Development</h4>
+                    <ul style="margin-left: 0;">
+                        <li>Awareness training for 900+ employees</li>
+                        <li>Internal auditor certification (40-50 staff)</li>
+                        <li>Specialized technical training programs</li>
+                        <li>Management leadership training</li>
+                        <li>Software platform training</li>
+                        <li>All training materials (Arabic/English)</li>
+                        <li>Competency assessments</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>✓ Software Platform</h4>
+                    <ul style="margin-left: 0;">
+                        <li>Vissibl IMS cloud platform license (18 months)</li>
+                        <li>Unlimited users across all locations</li>
+                        <li>Mobile app access</li>
+                        <li>Document management system</li>
+                        <li>Risk and incident management</li>
+                        <li>Audit and corrective action tracking</li>
+                        <li>Analytics and reporting dashboards</li>
+                        <li>Ongoing software updates and support</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-light); padding: 32px; border-radius: 12px; margin-top: 40px;">
+                <h4>Payment Terms</h4>
+                <ul>
+                    <li><strong>30% upon contract signing</strong> - Project initiation and assessment phase</li>
+                    <li><strong>40% at Month 6</strong> - Upon completion of documentation and software deployment</li>
+                    <li><strong>30% at Month 12</strong> - Upon successful certification achievement</li>
+                </ul>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,180,216,0.1)); padding: 32px; border-radius: 12px; margin-top: 24px; border: 2px solid var(--accent-cyan);">
+                <h4 style="color: var(--accent-cyan);">🎯 Certification Cost Estimate</h4>
+                <p><strong>Note:</strong> Certification body audit fees are separate and paid directly to the accredited certification body. Estimated cost: $25,000-35,000 USD for multi-site certification of 14 locations (Stage 1, Stage 2, and certificate issuance). Vissibl will assist in certification body selection and cost negotiation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Vissibl -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Why Choose Vissibl</span>
+                <h2>Your Partner in Operational Excellence</h2>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">🏭</div>
+                    <h4>Industry Expertise</h4>
+                    <p>Specialized experience in food and agriculture sector, grain storage operations, and Middle East regulatory requirements. We understand your unique challenges.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌍</div>
+                    <h4>Multi-Site Implementation</h4>
+                    <p>Proven track record of implementing IMS across distributed operations. We excel at managing complexity while maintaining consistency.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💻</div>
+                    <h4>Digital-First Approach</h4>
+                    <p>Modern cloud-based platform eliminates paper-based inefficiency, provides real-time visibility, and scales effortlessly across your 14 locations.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <h4>Knowledge Transfer</h4>
+                    <p>We don't just implement systems—we build internal capability through extensive training and coaching, ensuring long-term sustainability.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h4>Results-Driven</h4>
+                    <p>Focus on practical implementation and measurable outcomes. Our goal is not just certification but genuine operational improvement.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <h4>Partnership Mindset</h4>
+                    <p>We work as an extension of your team, adapting our approach to fit SABIL's culture, constraints, and strategic objectives.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 60px; text-align: center; padding: 48px; background: var(--bg-light); border-radius: 16px;">
+                <h3 style="margin-bottom: 16px;">Ready to Transform SABIL's Operations?</h3>
+                <p style="max-width: 700px; margin: 0 auto 32px;">Let's discuss how Vissibl can support SABIL Group's critical role in Saudi Arabia's food security while building a world-class integrated management system.</p>
+                <div style="font-size: 14px; color: var(--text-secondary);">
+                    <p><strong>Contact Us:</strong></p>
+                    <p>Email: contact@vissibl.com | Web: www.vissibl.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div style="background: var(--primary-dark); color: white; padding: 40px 0; text-align: center;">
+        <div class="container">
+            <img src="vissibl_logo.svg" alt="Vissibl" style="max-width: 180px; margin-bottom: 24px; filter: brightness(0) invert(1);">
+            <p style="color: var(--text-light); font-size: 14px;">Proposal prepared for SABIL Group, Kingdom of Saudi Arabia</p>
+            <p style="color: var(--text-light); font-size: 14px;">Document Date: January 2026 | Valid for 90 days</p>
+            <p style="color: var(--text-light); font-size: 12px; margin-top: 24px;">© 2026 Vissibl. All rights reserved. Confidential and proprietary information.</p>
+        </div>
+    </div>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
