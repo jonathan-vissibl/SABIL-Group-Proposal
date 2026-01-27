@@ -79,12 +79,149 @@
             100% { background-position: 0% 50%; }
         }
 
+        @keyframes morphIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+                filter: blur(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes slideReveal {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px);
+                filter: blur(6px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes scaleReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+                filter: blur(6px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes glowIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+                text-shadow: 0 0 0 transparent;
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(0, 212, 170, 0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                text-shadow: 0 0 0 transparent;
+            }
+        }
+
+        @keyframes slideOutLeft {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(4px);
+            }
+        }
+
         .animate {
             opacity: 0;
+            will-change: transform, opacity, filter;
         }
 
         .animate.visible {
-            animation: fadeInUp 0.8s ease forwards;
+            animation: morphIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .animate.visible.slide-reveal {
+            animation: slideReveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .animate.visible.scale-reveal {
+            animation: scaleReveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .animate.visible.glow-in {
+            animation: glowIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate.exiting {
+            animation: slideOutLeft 0.6s cubic-bezier(0.4, 0, 1, 1) forwards;
+        }
+
+        /* Stagger-children parent should be visible immediately */
+        .animate.stagger-children {
+            opacity: 1;
+        }
+
+        .animate.stagger-children.visible {
+            animation: none;
+        }
+
+        /* Staggered children animation */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .stagger-children.visible > *:nth-child(1) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0s;
+        }
+
+        .stagger-children.visible > *:nth-child(2) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.15s;
+        }
+
+        .stagger-children.visible > *:nth-child(3) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        .stagger-children.visible > *:nth-child(4) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.45s;
+        }
+
+        .stagger-children.visible > *:nth-child(5) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.6s;
+        }
+
+        .stagger-children.visible > *:nth-child(6) {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.75s;
         }
 
         .animate-delay-1 { animation-delay: 0.1s; }
@@ -491,15 +628,15 @@
     <!-- Executive Summary -->
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate">
                 <span class="section-label">Executive Summary</span>
                 <h2>Transforming SABIL's Operations Through Excellence</h2>
             </div>
-            <p>SABIL Group, as Saudi Arabia's national grain supply company and a cornerstone of Vision 2030, requires an integrated management system that ensures operational excellence, environmental stewardship, and worker safety across all 14 locations. Vissibl proposes a comprehensive implementation of ISO 9001:2015 (Quality Management), ISO 14001:2015 (Environmental Management), and ISO 45001:2018 (Occupational Health & Safety Management) tailored specifically for the grain storage and logistics sector.</p>
+            <p class="animate">SABIL Group, as Saudi Arabia's national grain supply company and a cornerstone of Vision 2030, requires an integrated management system that ensures operational excellence, environmental stewardship, and worker safety across all 14 locations. Vissibl proposes a comprehensive implementation of ISO 9001:2015 (Quality Management), ISO 14001:2015 (Environmental Management), and ISO 45001:2018 (Occupational Health & Safety Management) tailored specifically for the grain storage and logistics sector.</p>
 
-            <p>Our approach combines deep industry expertise with cutting-edge digital tools to create a resilient, sustainable, and compliant operational framework. This proposal outlines our methodology for identifying risks, implementing controls, training your workforce, and achieving certification across your entire network of silos, port facilities, and headquarters operations.</p>
+            <p class="animate">Our approach combines deep industry expertise with cutting-edge digital tools to create a resilient, sustainable, and compliant operational framework. This proposal outlines our methodology for identifying risks, implementing controls, training your workforce, and achieving certification across your entire network of silos, port facilities, and headquarters operations.</p>
 
-            <div class="card-grid">
+            <div class="card-grid stagger-children animate">
                 <div class="card">
                     <div class="card-icon">📊</div>
                     <h4>ISO 9001:2015</h4>
@@ -522,16 +659,16 @@
     <!-- Risk Identification Approach -->
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate">
                 <span class="section-label">Risk Management Framework</span>
                 <h2>Comprehensive Risk Identification & Mitigation</h2>
             </div>
-            <p>Our implementation begins with thorough risk identification across all SABIL locations and operations. We employ a systematic approach combining industry best practices, regulatory requirements, and site-specific assessments to identify, evaluate, and mitigate risks across three critical dimensions:</p>
+            <p class="animate">Our implementation begins with thorough risk identification across all SABIL locations and operations. We employ a systematic approach combining industry best practices, regulatory requirements, and site-specific assessments to identify, evaluate, and mitigate risks across three critical dimensions:</p>
 
-            <h3 style="margin-top: 48px;">Strategic & Operational Risks</h3>
-            <p>These enterprise-level risks affect SABIL's ability to fulfill its mission as Saudi Arabia's national grain supplier:</p>
+            <h3 style="margin-top: 48px;" class="animate">Strategic & Operational Risks</h3>
+            <p class="animate">These enterprise-level risks affect SABIL's ability to fulfill its mission as Saudi Arabia's national grain supplier:</p>
 
-            <div class="table-container">
+            <div class="table-container animate">
                 <table>
                     <thead>
                         <tr>
@@ -589,10 +726,10 @@
                 </table>
             </div>
 
-            <h3 style="margin-top: 48px;">Quality Management Risks (ISO 9001)</h3>
-            <p>Department-specific quality risks that could impact product integrity and customer satisfaction:</p>
+            <h3 style="margin-top: 48px;" class="animate">Quality Management Risks (ISO 9001)</h3>
+            <p class="animate">Department-specific quality risks that could impact product integrity and customer satisfaction:</p>
 
-            <div class="table-container">
+            <div class="table-container animate">
                 <table>
                     <thead>
                         <tr>
@@ -665,10 +802,10 @@
                 </table>
             </div>
 
-            <h3 style="margin-top: 48px;">Occupational Health & Safety Risks (ISO 45001)</h3>
-            <p>Worker safety hazards requiring systematic controls and protective measures:</p>
+            <h3 style="margin-top: 48px;" class="animate">Occupational Health & Safety Risks (ISO 45001)</h3>
+            <p class="animate">Worker safety hazards requiring systematic controls and protective measures:</p>
 
-            <div class="table-container">
+            <div class="table-container animate">
                 <table>
                     <thead>
                         <tr>
@@ -746,13 +883,13 @@
     <!-- Regulatory Compliance -->
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate">
                 <span class="section-label">Regulatory Framework</span>
                 <h2>Ensuring Compliance with Saudi Requirements</h2>
             </div>
-            <p>Vissibl's implementation ensures SABIL meets all applicable Saudi Arabian regulations while integrating international best practices. Our IMS framework provides systematic compliance with:</p>
+            <p class="animate">Vissibl's implementation ensures SABIL meets all applicable Saudi Arabian regulations while integrating international best practices. Our IMS framework provides systematic compliance with:</p>
 
-            <div class="card-grid">
+            <div class="card-grid stagger-children animate">
                 <div class="card">
                     <h4>🏛️ Food Safety & Quality</h4>
                     <ul>
@@ -793,13 +930,13 @@
     <!-- Implementation Methodology -->
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate">
                 <span class="section-label">Our Approach</span>
                 <h2>Proven Implementation Methodology</h2>
             </div>
 
-            <h3>Phase 1: Assessment & Gap Analysis</h3>
-            <p>Comprehensive evaluation of current state across all 14 locations:</p>
+            <h3 class="animate">Phase 1: Assessment & Gap Analysis</h3>
+            <p class="animate">Comprehensive evaluation of current state across all 14 locations:</p>
             <ul>
                 <li>Document review of existing procedures, records, and systems</li>
                 <li>On-site audits at each location (Riyadh HQ, Al-Jouf, Al-Kharj, Dammam, Al-Qassim, Tabuk, Jazan, Jeddah, Hail, Khamis Mushait, Wadi ad-Dawasir, Al-Ahsa, Al-Jumum, Yanbu)</li>
@@ -810,9 +947,9 @@
                 <li>Identification of quick wins and priority areas</li>
             </ul>
 
-            <h3 style="margin-top: 40px;">Phase 2: System Design & Documentation</h3>
-            <p>Development of integrated management system tailored to SABIL's operations:</p>
-            <ul>
+            <h3 style="margin-top: 40px;" class="animate">Phase 2: System Design & Documentation</h3>
+            <p class="animate">Development of integrated management system tailored to SABIL's operations:</p>
+            <ul class="animate">
                 <li>Integrated Management Manual covering all three standards</li>
                 <li>Quality, Environmental, and OHS Policies approved by top management</li>
                 <li>Process maps for grain procurement, storage, handling, and distribution</li>
@@ -823,9 +960,9 @@
                 <li>Emergency response and business continuity procedures</li>
             </ul>
 
-            <h3 style="margin-top: 40px;">Phase 3: Digital Platform Implementation</h3>
-            <p>Deployment of Vissibl's cloud-based IMS software across all locations:</p>
-            <ul>
+            <h3 style="margin-top: 40px;" class="animate">Phase 3: Digital Platform Implementation</h3>
+            <p class="animate">Deployment of Vissibl's cloud-based IMS software across all locations:</p>
+            <ul class="animate">
                 <li>Centralized document management with version control</li>
                 <li>Real-time risk register and incident reporting</li>
                 <li>Audit management and corrective action tracking</li>
@@ -837,10 +974,10 @@
                 <li>Integration capabilities with existing SABIL systems (ERP, LIMS)</li>
             </ul>
 
-            <h3 style="margin-top: 40px;">Phase 4: Training & Competency Development</h3>
-            <p>Comprehensive training program for all 900+ SABIL employees:</p>
+            <h3 style="margin-top: 40px;" class="animate">Phase 4: Training & Competency Development</h3>
+            <p class="animate">Comprehensive training program for all 900+ SABIL employees:</p>
 
-            <div class="table-container">
+            <div class="table-container animate">
                 <table>
                     <thead>
                         <tr>
@@ -915,9 +1052,9 @@
                 </table>
             </div>
 
-            <h3 style="margin-top: 40px;">Phase 5: Implementation & Operational Readiness</h3>
-            <p>Putting systems into practice with continuous support:</p>
-            <ul>
+            <h3 style="margin-top: 40px;" class="animate">Phase 5: Implementation & Operational Readiness</h3>
+            <p class="animate">Putting systems into practice with continuous support:</p>
+            <ul class="animate">
                 <li>Pilot implementation at 2-3 locations before full rollout</li>
                 <li>Support for initial risk assessments at each location</li>
                 <li>Facilitation of management reviews</li>
@@ -927,9 +1064,9 @@
                 <li>Preparation of objective evidence for certification audits</li>
             </ul>
 
-            <h3 style="margin-top: 40px;">Phase 6: Certification Audit Support</h3>
-            <p>Ensuring successful certification at all locations:</p>
-            <ul>
+            <h3 style="margin-top: 40px;" class="animate">Phase 6: Certification Audit Support</h3>
+            <p class="animate">Ensuring successful certification at all locations:</p>
+            <ul class="animate">
                 <li>Pre-assessment audits to identify readiness gaps</li>
                 <li>Coordination with accredited certification body</li>
                 <li>On-site support during Stage 1 and Stage 2 audits</li>
@@ -943,13 +1080,13 @@
     <!-- Key Mitigation Strategies -->
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate">
                 <span class="section-label">Risk Controls</span>
                 <h2>Critical Mitigation Strategies We Implement</h2>
             </div>
-            <p>Based on our extensive experience in the grain storage sector, Vissibl will implement the following proven control measures:</p>
+            <p class="animate">Based on our extensive experience in the grain storage sector, Vissibl will implement the following proven control measures:</p>
 
-            <div class="card-grid">
+            <div class="card-grid stagger-children animate">
                 <div class="card">
                     <div class="card-icon">🔍</div>
                     <h4>Supplier Qualification Program</h4>
@@ -1017,44 +1154,44 @@
     <!-- Project Timeline -->
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate">
                 <span class="section-label">Project Schedule</span>
                 <h2>Implementation Milestones</h2>
             </div>
-            <p>Our implementation follows a structured timeline designed to achieve certification within 12 months while minimizing operational disruption:</p>
+            <p class="animate">Our implementation follows a structured timeline designed to achieve certification within 12 months while minimizing operational disruption:</p>
 
             <div class="timeline">
-                <div class="timeline-item">
+                <div class="timeline-item animate">
                     <h4>Month 1-2: Project Initiation & Assessment</h4>
                     <p><strong>Deliverables:</strong> Kick-off meeting, project plan, site visits to all 14 locations, gap analysis report, priority action plan</p>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item animate">
                     <h4>Month 3-4: System Design & Documentation</h4>
                     <p><strong>Deliverables:</strong> Integrated Management Manual, policies, process documentation, risk registers, procedure drafts, KPI framework</p>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item animate">
                     <h4>Month 5-6: Software Deployment & Training Wave 1</h4>
                     <p><strong>Deliverables:</strong> Vissibl platform configured and deployed, management and internal auditor training completed, awareness training at all locations</p>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item animate">
                     <h4>Month 7-8: Pilot Implementation & Refinement</h4>
                     <p><strong>Deliverables:</strong> Pilot implementation at 3 locations, system refinements based on feedback, specialized technical training, initial audits conducted</p>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item animate">
                     <h4>Month 9-10: Full Rollout & Operational Integration</h4>
                     <p><strong>Deliverables:</strong> IMS operational at all 14 locations, first management review completed, 3 months of objective evidence generated, corrective actions tracked</p>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item animate">
                     <h4>Month 11: Pre-Assessment & Readiness Verification</h4>
                     <p><strong>Deliverables:</strong> Pre-assessment audits at all locations, readiness report, final preparations, certification body selected and Stage 1 scheduled</p>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item animate">
                     <h4>Month 12: Certification Audits</h4>
                     <p><strong>Deliverables:</strong> Stage 1 and Stage 2 certification audits completed, non-conformances closed, ISO 9001, 14001, and 45001 certificates issued for all 14 locations</p>
                 </div>
@@ -1077,12 +1214,12 @@
     <!-- Investment -->
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate">
                 <span class="section-label">Investment</span>
                 <h2>Comprehensive IMS Implementation Package</h2>
             </div>
 
-            <div class="price-box">
+            <div class="price-box animate scale-reveal">
                 <h3>Complete Implementation Program</h3>
                 <p style="color: var(--text-light); margin-bottom: 0;">ISO 9001 | ISO 14001 | ISO 45001 Implementation<br>14 Locations | 900+ Employees | 12 Month Program</p>
                 <div class="price-amount">$100,000 USD</div>
@@ -1090,8 +1227,8 @@
                 <p style="color: var(--text-light); margin-top: 20px; font-size: 14px;">Exchange rate: 1 USD = 3.75 SAR (Saudi Riyal pegged rate)</p>
             </div>
 
-            <h3 style="margin-top: 48px;">Package Includes</h3>
-            <div class="card-grid">
+            <h3 style="margin-top: 48px;" class="animate">Package Includes</h3>
+            <div class="card-grid stagger-children animate">
                 <div class="card">
                     <h4>✓ Consulting Services</h4>
                     <ul style="margin-left: 0;">
@@ -1150,12 +1287,12 @@
     <!-- Why Vissibl -->
     <section>
         <div class="container">
-            <div class="section-header">
+            <div class="section-header animate">
                 <span class="section-label">Why Choose Vissibl</span>
                 <h2>Your Partner in Operational Excellence</h2>
             </div>
 
-            <div class="card-grid">
+            <div class="card-grid stagger-children animate">
                 <div class="card">
                     <div class="card-icon">🏭</div>
                     <h4>Industry Expertise</h4>
@@ -1210,21 +1347,76 @@
     </div>
 
     <script>
-        // Intersection Observer for scroll animations
+        // Enhanced Intersection Observer for smooth bidirectional scroll animations
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
+                    // Element is entering viewport - animate in
+                    entry.target.classList.remove('exiting');
                     entry.target.classList.add('visible');
+                } else {
+                    // Element is leaving viewport - animate out
+                    entry.target.classList.add('exiting');
+                    // Remove visible class after exit animation completes
+                    setTimeout(() => {
+                        if (entry.target.classList.contains('exiting')) {
+                            entry.target.classList.remove('visible');
+                        }
+                    }, 600);
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+        // Observe all animated elements
+        document.querySelectorAll('.animate, .stagger-children').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Parallax effect on scroll for smooth, slow motion
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+
+                    // Parallax for hero section
+                    const hero = document.querySelector('.hero-content');
+                    if (hero && scrolled < window.innerHeight) {
+                        hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                        hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.7;
+                    }
+
+                    // Subtle float effect for cards
+                    document.querySelectorAll('.card').forEach((card, i) => {
+                        const rect = card.getBoundingClientRect();
+                        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                        if (inView) {
+                            const offset = Math.sin(scrolled * 0.002 + i) * 3;
+                            card.style.transform = `translateY(${offset}px)`;
+                        }
+                    });
+
+                    // Timeline items parallax
+                    document.querySelectorAll('.timeline-item').forEach((item, i) => {
+                        const rect = item.getBoundingClientRect();
+                        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                        if (inView) {
+                            const scrollPercent = (window.innerHeight - rect.top) / window.innerHeight;
+                            const offset = scrollPercent * 20 - 10;
+                            item.style.transform = `translateX(${offset}px)`;
+                        }
+                    });
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1234,6 +1426,22 @@
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
+            });
+        });
+
+        // Add initial state classes to sections for entrance animations
+        window.addEventListener('load', () => {
+            // Trigger initial check for elements already in viewport
+            const initialCheck = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate').forEach(el => {
+                initialCheck.observe(el);
             });
         });
     </script>
