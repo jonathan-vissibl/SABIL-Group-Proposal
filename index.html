@@ -134,18 +134,6 @@
             }
         }
 
-        @keyframes slideOutLeft {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-                filter: blur(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(20px);
-                filter: blur(4px);
-            }
-        }
 
         .animate {
             opacity: 0;
@@ -168,9 +156,6 @@
             animation: glowIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .animate.exiting {
-            animation: slideOutLeft 0.6s cubic-bezier(0.4, 0, 1, 1) forwards;
-        }
 
         /* Stagger-children parent should be visible immediately */
         .animate.stagger-children {
@@ -1337,18 +1322,10 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Element is entering viewport - animate in
-                    entry.target.classList.remove('exiting');
+                    // Element is entering viewport - animate in only once
                     entry.target.classList.add('visible');
-                } else {
-                    // Element is leaving viewport - animate out
-                    entry.target.classList.add('exiting');
-                    // Remove visible class after exit animation completes
-                    setTimeout(() => {
-                        if (entry.target.classList.contains('exiting')) {
-                            entry.target.classList.remove('visible');
-                        }
-                    }, 600);
+                    // Stop observing after first animation to prevent re-triggering
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
