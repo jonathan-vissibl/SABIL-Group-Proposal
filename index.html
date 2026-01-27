@@ -149,7 +149,6 @@
 
         .animate {
             opacity: 0;
-            will-change: transform, opacity, filter;
         }
 
         .animate.visible {
@@ -185,43 +184,53 @@
         .stagger-children > * {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .stagger-children.visible > *:nth-child(1) {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: 0s;
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0s,
+                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0s;
         }
 
         .stagger-children.visible > *:nth-child(2) {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: 0.15s;
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
         }
 
         .stagger-children.visible > *:nth-child(3) {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: 0.3s;
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s,
+                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
         }
 
         .stagger-children.visible > *:nth-child(4) {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: 0.45s;
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.45s,
+                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
         }
 
         .stagger-children.visible > *:nth-child(5) {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: 0.6s;
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s,
+                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s;
         }
 
         .stagger-children.visible > *:nth-child(6) {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: 0.75s;
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.75s,
+                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.75s;
+        }
+
+        /* Reset transform on hover so card can use its own hover effect */
+        .stagger-children.visible > *:hover {
+            transform: translateY(-4px);
         }
 
         .animate-delay-1 { animation-delay: 0.1s; }
@@ -400,12 +409,13 @@
             border-radius: 12px;
             padding: 32px;
             box-shadow: var(--shadow-md);
-            transition: var(--transition);
+            transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card:hover {
             box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
+            transform: translateY(-4px) !important;
         }
 
         .card-icon {
@@ -1383,33 +1393,12 @@
                 window.requestAnimationFrame(() => {
                     const scrolled = window.pageYOffset;
 
-                    // Parallax for hero section
+                    // Parallax for hero section only
                     const hero = document.querySelector('.hero-content');
                     if (hero && scrolled < window.innerHeight) {
                         hero.style.transform = `translateY(${scrolled * 0.3}px)`;
                         hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.7;
                     }
-
-                    // Subtle float effect for cards
-                    document.querySelectorAll('.card').forEach((card, i) => {
-                        const rect = card.getBoundingClientRect();
-                        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-                        if (inView) {
-                            const offset = Math.sin(scrolled * 0.002 + i) * 3;
-                            card.style.transform = `translateY(${offset}px)`;
-                        }
-                    });
-
-                    // Timeline items parallax
-                    document.querySelectorAll('.timeline-item').forEach((item, i) => {
-                        const rect = item.getBoundingClientRect();
-                        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-                        if (inView) {
-                            const scrollPercent = (window.innerHeight - rect.top) / window.innerHeight;
-                            const offset = scrollPercent * 20 - 10;
-                            item.style.transform = `translateX(${offset}px)`;
-                        }
-                    });
 
                     ticking = false;
                 });
