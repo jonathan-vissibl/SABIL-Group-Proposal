@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Integrated Management System Implementation | Vissibl for SABIL Group</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
             --primary-dark: #0a1628;
@@ -17,7 +18,7 @@
             --bg-white: #ffffff;
             --bg-light: #f8fafc;
             --bg-section: #f1f5f9;
-            --border-light: rgba(0, 0, 0, 0.06);
+            --border-light: #E2E8F0;
             --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -362,30 +363,37 @@
         }
 
         .card {
-            background: var(--bg-white);
-            border-radius: 12px;
+            background: var(--bg-light);
+            border-radius: 16px;
             padding: 32px;
-            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-            box-shadow: var(--shadow-lg);
             transform: translateY(-4px) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
             transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                         transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .card-icon {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
             margin-bottom: 20px;
+        }
+
+        .card-icon i,
+        .card-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke-width: 1.5;
         }
 
         /* Tables */
@@ -403,7 +411,7 @@
         }
 
         th {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary-navy));
+            background: linear-gradient(to bottom, var(--primary-dark), var(--primary-navy));
             color: white;
             padding: 16px;
             text-align: left;
@@ -483,7 +491,7 @@
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -46px;
+            left: -51px;
             top: 4px;
             width: 16px;
             height: 16px;
@@ -558,6 +566,32 @@
             }
         }
 
+        /* Top fade overlay */
+        .top-fade {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 1) 0%,
+                rgba(255, 255, 255, 0.85) 40%,
+                rgba(255, 255, 255, 0.4) 70%,
+                rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .top-fade.visible {
+            opacity: 1;
+        }
+
         /* Print styles */
         @media print {
             .hero {
@@ -577,6 +611,9 @@
     </style>
 </head>
 <body>
+    <!-- Top fade overlay -->
+    <div class="top-fade"></div>
+
     <!-- Hero Section -->
     <div class="hero">
         <div class="hero-content">
@@ -605,17 +642,23 @@
 
             <div class="card-grid stagger-children animate">
                 <div class="card">
-                    <div class="card-icon">📊</div>
+                    <div class="card-icon">
+                        <i data-lucide="bar-chart-2"></i>
+                    </div>
                     <h4>ISO 9001:2015</h4>
                     <p>Quality Management System ensuring consistent grain quality, traceability, and customer satisfaction across all procurement and storage operations.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🌱</div>
+                    <div class="card-icon">
+                        <i data-lucide="leaf"></i>
+                    </div>
                     <h4>ISO 14001:2015</h4>
                     <p>Environmental Management System controlling emissions, waste, and resource consumption while ensuring compliance with Saudi environmental regulations.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">⚡</div>
+                    <div class="card-icon">
+                        <i data-lucide="shield-check"></i>
+                    </div>
                     <h4>ISO 45001:2018</h4>
                     <p>Occupational Health & Safety System protecting your 900+ employees through systematic hazard identification and risk mitigation.</p>
                 </div>
@@ -858,7 +901,10 @@
 
             <div class="card-grid stagger-children animate">
                 <div class="card">
-                    <h4>🏛️ Food Safety & Quality</h4>
+                    <div class="card-icon">
+                        <i data-lucide="building-2"></i>
+                    </div>
+                    <h4>Food Safety & Quality</h4>
                     <ul>
                         <li>Saudi Food & Drug Authority (SFDA) regulations</li>
                         <li>SFDA.FD 47: Grain storage facility requirements</li>
@@ -869,7 +915,10 @@
                     </ul>
                 </div>
                 <div class="card">
-                    <h4>🌍 Environmental Protection</h4>
+                    <div class="card-icon">
+                        <i data-lucide="globe"></i>
+                    </div>
+                    <h4>Environmental Protection</h4>
                     <ul>
                         <li>Royal Decree M/34/1422H (General Environmental Law 2001)</li>
                         <li>Environmental Impact Assessment requirements</li>
@@ -880,7 +929,10 @@
                     </ul>
                 </div>
                 <div class="card">
-                    <h4>👷 Occupational Safety & Health</h4>
+                    <div class="card-icon">
+                        <i data-lucide="hard-hat"></i>
+                    </div>
+                    <h4>Occupational Safety & Health</h4>
                     <ul>
                         <li>Saudi Labor Law (Royal Decree M/51)</li>
                         <li>Regulation of Occupational Safety and Health (2018)</li>
@@ -904,7 +956,7 @@
 
             <h3 class="animate">Phase 1: Assessment & Gap Analysis</h3>
             <p class="animate">Comprehensive evaluation of current state across all 14 locations:</p>
-            <ul>
+            <ul class="animate">
                 <li>Document review of existing procedures, records, and systems</li>
                 <li>On-site audits at each location (Riyadh HQ, Al-Jouf, Al-Kharj, Dammam, Al-Qassim, Tabuk, Jazan, Jeddah, Hail, Khamis Mushait, Wadi ad-Dawasir, Al-Ahsa, Al-Jumum, Yanbu)</li>
                 <li>Staff interviews and competency assessments</li>
@@ -1049,70 +1101,73 @@
         <div class="container">
             <div class="section-header animate">
                 <span class="section-label">Risk Controls</span>
-                <h2>Critical Mitigation Strategies We Implement</h2>
+                <h2>Critical Mitigation Strategies We Consult On</h2>
             </div>
-            <p class="animate">Based on our extensive experience in the grain storage sector, Vissibl will implement the following proven control measures:</p>
+            <p class="animate">Based on our extensive experience in the grain storage sector, we provide consulting and evaluation services in the following key areas:</p>
 
             <div class="card-grid stagger-children animate">
                 <div class="card">
-                    <div class="card-icon">🔍</div>
+                    <div class="card-icon">
+                        <i data-lucide="search"></i>
+                    </div>
                     <h4>Supplier Qualification Program</h4>
                     <p>Comprehensive supplier assessment criteria, pre-shipment inspections, certificate of analysis requirements, and performance scorecards to ensure only quality grain enters SABIL facilities.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">📡</div>
-                    <h4>Automated Grain Monitoring</h4>
-                    <p>IoT sensors for real-time temperature, humidity, and pest activity monitoring with automated alerts to prevent quality degradation and enable rapid intervention.</p>
+                    <div class="card-icon">
+                        <i data-lucide="radio"></i>
+                    </div>
+                    <h4>Grain Monitoring Evaluation</h4>
+                    <p>Evaluate the effectiveness of existing grain monitoring systems for temperature, humidity, and quality control to ensure optimal storage conditions and prevent degradation.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🧪</div>
+                    <div class="card-icon">
+                        <i data-lucide="flask-conical"></i>
+                    </div>
                     <h4>Laboratory Quality Assurance</h4>
-                    <p>Calibration programs, proficiency testing participation, certified reference materials, and method validation to ensure accurate and reliable quality testing.</p>
+                    <p>Assessment of calibration programs, proficiency testing participation, certified reference materials, and method validation to ensure accurate and reliable quality testing.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🦠</div>
-                    <h4>Integrated Pest Management</h4>
-                    <p>Preventive monitoring systems, fumigation protocols, facility proofing measures, and professional pest control partnerships to eliminate infestation risks.</p>
+                    <div class="card-icon">
+                        <i data-lucide="scale"></i>
+                    </div>
+                    <h4>Centralized Calibration Oversight</h4>
+                    <p>Unified calibration system monitoring across all locations, ensuring consistent measurement accuracy, traceability to national standards, and efficient coordination from a central point.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🔥</div>
-                    <h4>Dust Explosion Prevention</h4>
-                    <p>Explosion-proof equipment specification, dust suppression systems, hot work permit procedures, and housekeeping protocols to eliminate explosion hazards.</p>
+                    <div class="card-icon">
+                        <i data-lucide="bug"></i>
+                    </div>
+                    <h4>Pest Management Evaluation</h4>
+                    <p>Evaluate the effectiveness of existing pest management systems, monitoring protocols, and control measures to ensure compliance and protection of stored grain.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🚫</div>
-                    <h4>Confined Space Safety Program</h4>
-                    <p>Entry permits, atmospheric testing, continuous monitoring, rescue procedures, and specialized training to protect workers in silos and enclosed spaces.</p>
+                    <div class="card-icon">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <h4>Occupational Health & Safety Evaluation</h4>
+                    <p>Comprehensive evaluation of existing OHS systems, hazard identification processes, risk controls, and worker protection measures against ISO 45001 requirements.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">⚠️</div>
-                    <h4>Fall Protection Systems</h4>
-                    <p>Guardrails, safety harnesses, anchor points, ladder cages, and regular inspection protocols for all work at height on silos and elevated equipment.</p>
+                    <div class="card-icon">
+                        <i data-lucide="recycle"></i>
+                    </div>
+                    <h4>Environmental Controls Assessment</h4>
+                    <p>Assessment of environmental management controls within ISO 14001 framework, including emissions, waste management, and compliance with Ministry of Environment requirements.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🔐</div>
-                    <h4>Energy Isolation (LOTO)</h4>
-                    <p>Comprehensive lockout/tagout procedures, equipment-specific LOTO points, authorized personnel training, and verification protocols for maintenance safety.</p>
+                    <div class="card-icon">
+                        <i data-lucide="clipboard-list"></i>
+                    </div>
+                    <h4>Traceability Consulting</h4>
+                    <p>Consulting on traceability practices including batch coding, chain of custody documentation, and recall procedures to meet SFDA and international requirements.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">☀️</div>
-                    <h4>Heat Stress Prevention</h4>
-                    <p>Work-rest schedules, acclimatization protocols, hydration programs, cooling stations, and medical surveillance adapted to Saudi Arabia's extreme climate.</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">♻️</div>
-                    <h4>Environmental Controls</h4>
-                    <p>Dust emission controls, waste segregation programs, water conservation measures, and environmental monitoring to meet Ministry of Environment requirements.</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">📋</div>
-                    <h4>Traceability System</h4>
-                    <p>Batch coding, chain of custody documentation, digital traceability in Vissibl platform, and rapid recall procedures meeting SFDA requirements.</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">🚨</div>
+                    <div class="card-icon">
+                        <i data-lucide="siren"></i>
+                    </div>
                     <h4>Emergency Response Plans</h4>
-                    <p>Location-specific emergency procedures, fire safety systems, evacuation drills, first aid capabilities, and coordination with local emergency services.</p>
+                    <p>Elaborate or evaluate location-specific emergency procedures, evacuation protocols, first aid capabilities, and coordination with local emergency services.</p>
                 </div>
             </div>
         </div>
@@ -1189,14 +1244,14 @@
             <div class="price-box animate scale-reveal">
                 <h3>Complete Implementation Program</h3>
                 <p style="color: var(--text-light); margin-bottom: 0;">ISO 9001 | ISO 14001 | ISO 45001 Implementation<br>14 Locations | 900+ Employees | 12 Month Program</p>
-                <div class="price-amount">380,000 SAR</div>
+                <div class="price-amount">220,000 SAR</div>
                 <div class="price-currency">Saudi Riyal</div>
             </div>
 
             <h3 style="margin-top: 48px;" class="animate">Package Includes</h3>
             <div class="card-grid stagger-children animate">
                 <div class="card">
-                    <h4>✓ Consulting Services</h4>
+                    <h4>Consulting Services</h4>
                     <ul style="margin-left: 0;">
                         <li>Gap analysis audits at all 14 locations</li>
                         <li>IMS design and documentation</li>
@@ -1208,7 +1263,7 @@
                     </ul>
                 </div>
                 <div class="card">
-                    <h4>✓ Training & Development</h4>
+                    <h4>Training & Development</h4>
                     <ul style="margin-left: 0;">
                         <li>Awareness training for 900+ employees</li>
                         <li>Internal auditor certification (40-50 staff)</li>
@@ -1220,7 +1275,7 @@
                     </ul>
                 </div>
                 <div class="card">
-                    <h4>✓ Software Platform</h4>
+                    <h4>Software Platform</h4>
                     <ul style="margin-left: 0;">
                         <li>Vissibl IMS cloud platform license (18 months)</li>
                         <li>Unlimited users across all locations</li>
@@ -1244,7 +1299,7 @@
             </div>
 
             <div style="background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,180,216,0.1)); padding: 32px; border-radius: 12px; margin-top: 24px; border: 2px solid var(--accent-cyan);">
-                <h4 style="color: var(--accent-cyan);">🎯 Certification Cost Estimate</h4>
+                <h4 style="color: var(--accent-cyan);">Certification Cost Estimate</h4>
                 <p><strong>Note:</strong> Certification body audit fees are separate and paid directly to the accredited certification body. Estimated cost: 95,000-130,000 SAR for multi-site certification of 14 locations (Stage 1, Stage 2, and certificate issuance). Vissibl will assist in certification body selection and cost negotiation.</p>
             </div>
         </div>
@@ -1260,32 +1315,44 @@
 
             <div class="card-grid stagger-children animate">
                 <div class="card">
-                    <div class="card-icon">🏭</div>
+                    <div class="card-icon">
+                        <i data-lucide="factory"></i>
+                    </div>
                     <h4>Industry Expertise</h4>
                     <p>Specialized experience in food and agriculture sector, grain storage operations, and Middle East regulatory requirements. We understand your unique challenges.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🌍</div>
+                    <div class="card-icon">
+                        <i data-lucide="globe-2"></i>
+                    </div>
                     <h4>Multi-Site Implementation</h4>
                     <p>Proven track record of implementing IMS across distributed operations. We excel at managing complexity while maintaining consistency.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">💻</div>
+                    <div class="card-icon">
+                        <i data-lucide="laptop"></i>
+                    </div>
                     <h4>Digital-First Approach</h4>
                     <p>Modern cloud-based platform eliminates paper-based inefficiency, provides real-time visibility, and scales effortlessly across your 14 locations.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🎓</div>
+                    <div class="card-icon">
+                        <i data-lucide="graduation-cap"></i>
+                    </div>
                     <h4>Knowledge Transfer</h4>
                     <p>We don't just implement systems—we build internal capability through extensive training and coaching, ensuring long-term sustainability.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">📊</div>
+                    <div class="card-icon">
+                        <i data-lucide="target"></i>
+                    </div>
                     <h4>Results-Driven</h4>
                     <p>Focus on practical implementation and measurable outcomes. Our goal is not just certification but genuine operational improvement.</p>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🤝</div>
+                    <div class="card-icon">
+                        <i data-lucide="handshake"></i>
+                    </div>
                     <h4>Partnership Mindset</h4>
                     <p>We work as an extension of your team, adapting our approach to fit SABIL's culture, constraints, and strategic objectives.</p>
                 </div>
@@ -1313,6 +1380,9 @@
     </div>
 
     <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
         // Enhanced Intersection Observer for smooth bidirectional scroll animations
         const observerOptions = {
             threshold: 0.15,
@@ -1322,10 +1392,11 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Element is entering viewport - animate in only once
+                    // Element is entering viewport - animate in
                     entry.target.classList.add('visible');
-                    // Stop observing after first animation to prevent re-triggering
-                    observer.unobserve(entry.target);
+                } else {
+                    // Element is leaving viewport - reset for re-animation
+                    entry.target.classList.remove('visible');
                 }
             });
         }, observerOptions);
@@ -1337,16 +1408,28 @@
 
         // Parallax effect on scroll for smooth, slow motion
         let ticking = false;
+        const topFade = document.querySelector('.top-fade');
+
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     const scrolled = window.pageYOffset;
+                    const heroHeight = window.innerHeight;
 
                     // Parallax for hero section only
                     const hero = document.querySelector('.hero-content');
-                    if (hero && scrolled < window.innerHeight) {
+                    if (hero && scrolled < heroHeight) {
                         hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-                        hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.7;
+                        hero.style.opacity = 1 - (scrolled / heroHeight) * 0.7;
+                    }
+
+                    // Show/hide top fade after scrolling past hero
+                    if (topFade) {
+                        if (scrolled > heroHeight - 100) {
+                            topFade.classList.add('visible');
+                        } else {
+                            topFade.classList.remove('visible');
+                        }
                     }
 
                     ticking = false;
@@ -1366,19 +1449,14 @@
             });
         });
 
-        // Add initial state classes to sections for entrance animations
+        // Trigger initial check for elements already in viewport on page load
         window.addEventListener('load', () => {
-            // Trigger initial check for elements already in viewport
-            const initialCheck = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.animate').forEach(el => {
-                initialCheck.observe(el);
+            document.querySelectorAll('.animate, .stagger-children').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const inViewport = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+                if (inViewport) {
+                    el.classList.add('visible');
+                }
             });
         });
     </script>
