@@ -377,6 +377,48 @@
                         transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
+        /* Image hover effects */
+        .img-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .img-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .img-container img {
+            width: 100%;
+            display: block;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .img-container:hover img {
+            transform: scale(1.03);
+        }
+
+        .img-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 180, 216, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .img-container:hover::after {
+            opacity: 1;
+        }
+
         .card-icon {
             width: 56px;
             height: 56px;
@@ -678,214 +720,22 @@
             <h3 style="margin-top: 48px;" class="animate">Strategic & Operational Risks</h3>
             <p class="animate">These enterprise-level risks affect SABIL's ability to fulfill its mission as Saudi Arabia's national grain supplier:</p>
 
-            <div class="table-container animate">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Risk Category</th>
-                            <th>Description</th>
-                            <th>Impact</th>
-                            <th>Likelihood</th>
-                            <th>Risk Level</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Supply Chain Disruption</strong></td>
-                            <td>Interruption of international grain imports due to geopolitical events, logistics failures, or supplier issues</td>
-                            <td>Critical</td>
-                            <td>Medium</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Food Safety Contamination</strong></td>
-                            <td>Mycotoxin contamination, pest infestation, or quality degradation affecting stored grain</td>
-                            <td>Critical</td>
-                            <td>Medium</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Regulatory Non-Compliance</strong></td>
-                            <td>Failure to meet SFDA, SASO, or environmental requirements leading to penalties or operational restrictions</td>
-                            <td>Major</td>
-                            <td>Low</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Storage Capacity Constraints</strong></td>
-                            <td>Insufficient silo capacity during peak harvest or import periods</td>
-                            <td>Major</td>
-                            <td>Medium</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Cybersecurity Threats</strong></td>
-                            <td>Cyber attacks affecting inventory management, traceability, or operational systems</td>
-                            <td>Major</td>
-                            <td>Medium</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Climate & Weather Events</strong></td>
-                            <td>Extreme heat, sandstorms, or flooding affecting operations or grain quality</td>
-                            <td>Moderate</td>
-                            <td>High</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="animate img-container" style="margin: 24px 0;">
+                <img src="business Risk.png" alt="Strategic & Operational Risks in Vissibl Platform">
             </div>
 
             <h3 style="margin-top: 48px;" class="animate">Quality Management Risks (ISO 9001)</h3>
             <p class="animate">Department-specific quality risks that could impact product integrity and customer satisfaction:</p>
 
-            <div class="table-container animate">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Department</th>
-                            <th>Risk</th>
-                            <th>Impact</th>
-                            <th>Severity</th>
-                            <th>Mitigation Strategy</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td rowspan="3"><strong>Procurement & Supply Chain</strong></td>
-                            <td>Supplier delivers grain below specification (moisture, protein, contaminants)</td>
-                            <td>Critical</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Supplier qualification program, pre-shipment inspections, certificate of analysis requirements</td>
-                        </tr>
-                        <tr>
-                            <td>Lack of traceability from origin to storage</td>
-                            <td>Major</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                            <td>Batch tracking system, blockchain integration, comprehensive documentation requirements</td>
-                        </tr>
-                        <tr>
-                            <td>Inadequate contract specifications leading to disputes</td>
-                            <td>Moderate</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                            <td>Standardized contract templates, quality clauses aligned with SASO standards</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3"><strong>Warehouse & Storage Operations</strong></td>
-                            <td>Cross-contamination between different grain types or batches</td>
-                            <td>Critical</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Segregation protocols, cleaning procedures between batches, dedicated equipment</td>
-                        </tr>
-                        <tr>
-                            <td>Inadequate temperature/humidity control causing spoilage</td>
-                            <td>Critical</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Automated monitoring systems, aeration protocols, regular quality testing</td>
-                        </tr>
-                        <tr>
-                            <td>Pest infestation compromising grain quality</td>
-                            <td>Critical</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Integrated pest management program, fumigation protocols, preventive monitoring</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3"><strong>Quality Control Laboratory</strong></td>
-                            <td>Calibration drift in testing equipment producing inaccurate results</td>
-                            <td>Major</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Calibration schedule, certified reference materials, proficiency testing participation</td>
-                        </tr>
-                        <tr>
-                            <td>Sample handling errors affecting test validity</td>
-                            <td>Major</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                            <td>Sampling protocols per ISO 24333, chain of custody procedures, staff training</td>
-                        </tr>
-                        <tr>
-                            <td>Delayed testing resulting in quality degradation before detection</td>
-                            <td>Moderate</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                            <td>Testing turnaround time KPIs, adequate lab staffing, rapid test methods</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="animate img-container" style="margin: 24px 0;">
+                <img src="QM RISKS.png" alt="Quality Management Risks in Vissibl Platform">
             </div>
 
             <h3 style="margin-top: 48px;" class="animate">Occupational Health & Safety Risks (ISO 45001)</h3>
             <p class="animate">Worker safety hazards requiring systematic controls and protective measures:</p>
 
-            <div class="table-container animate">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Department</th>
-                            <th>Hazard/Risk</th>
-                            <th>Potential Impact</th>
-                            <th>Severity</th>
-                            <th>Mitigation & Control Measures</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td rowspan="3"><strong>Silo Operations</strong></td>
-                            <td>Grain dust explosions in enclosed spaces</td>
-                            <td>Fatality, major property damage</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Explosion-proof equipment, dust suppression systems, hot work permits, regular cleaning</td>
-                        </tr>
-                        <tr>
-                            <td>Confined space asphyxiation or engulfment in grain</td>
-                            <td>Fatality</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Confined space entry procedures, atmospheric testing, rescue equipment, buddy system</td>
-                        </tr>
-                        <tr>
-                            <td>Falls from height during silo inspection/maintenance</td>
-                            <td>Serious injury/fatality</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Fall protection systems, guardrails, safety harnesses, regular inspection of access equipment</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3"><strong>Port & Transportation</strong></td>
-                            <td>Vehicle-pedestrian collisions in loading areas</td>
-                            <td>Serious injury/fatality</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Traffic management plan, segregated walkways, reversing alarms, high-visibility PPE</td>
-                        </tr>
-                        <tr>
-                            <td>Struck by moving conveyor equipment</td>
-                            <td>Serious injury</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                            <td>Machine guarding, lockout/tagout procedures, emergency stop buttons, safety induction</td>
-                        </tr>
-                        <tr>
-                            <td>Heat stress during outdoor operations (Saudi climate)</td>
-                            <td>Heat exhaustion, heat stroke</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                            <td>Heat illness prevention program, work-rest schedules, hydration stations, medical surveillance</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3"><strong>Maintenance Department</strong></td>
-                            <td>Electrical shock during equipment repair</td>
-                            <td>Serious injury/fatality</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Lockout/tagout procedures, electrical safety training, qualified electricians, PPE requirements</td>
-                        </tr>
-                        <tr>
-                            <td>Exposure to fumigation chemicals (phosphine)</td>
-                            <td>Acute poisoning</td>
-                            <td><span class="risk-high">HIGH</span></td>
-                            <td>Certified fumigation operators, gas monitoring, respiratory protection, emergency response plan</td>
-                        </tr>
-                        <tr>
-                            <td>Musculoskeletal injuries from manual handling</td>
-                            <td>Chronic injury, lost time</td>
-                            <td><span class="risk-medium">MEDIUM</span></td>
-                            <td>Mechanical handling aids, ergonomic assessments, manual handling training, job rotation</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="animate img-container" style="margin: 24px 0;">
+                <img src="OHS Risks.png" alt="Occupational Health & Safety Risks in Vissibl Platform">
             </div>
         </div>
     </section>
@@ -1243,7 +1093,7 @@
             <div class="price-box animate scale-reveal">
                 <h3>Complete Implementation Program</h3>
                 <p style="color: var(--text-light); margin-bottom: 0;">ISO 9001 | ISO 14001 | ISO 45001 Implementation<br>15 Locations | 900+ Employees | 9 Month Fast-Track Program</p>
-                <div class="price-amount">220,000 SAR</div>
+                <div class="price-amount">380,000 SAR</div>
                 <div class="price-currency">Saudi Riyal</div>
             </div>
 
@@ -1363,6 +1213,119 @@
                 <div style="font-size: 14px; color: var(--text-secondary);">
                     <p><strong>Contact Us:</strong></p>
                     <p>Email: contact@vissibl.com | Web: www.vissibl.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proven Results & Case Study -->
+    <section>
+        <div class="container">
+            <div class="section-header animate">
+                <span class="section-label">Proven Results</span>
+                <h2>Delivering Measurable ROI</h2>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,180,216,0.1)); padding: 40px; border-radius: 16px; margin-bottom: 48px; border-left: 4px solid var(--accent-cyan);" class="animate">
+                <h4 style="color: var(--accent-cyan); margin-bottom: 16px;">Return on Investment</h4>
+                <p style="font-size: 18px; margin-bottom: 24px;">Organizations implementing integrated management systems with Vissibl consistently achieve significant operational improvements:</p>
+                <div class="card-grid stagger-children animate" style="margin-top: 24px;">
+                    <div style="text-align: center;">
+                        <p style="font-size: 48px; font-weight: 700; color: var(--accent-cyan); margin: 0;">30-40%</p>
+                        <p style="font-weight: 600; margin-bottom: 4px;">Cost Reduction</p>
+                        <p style="font-size: 14px; margin: 0;">Through integrated workflows, reduced duplication, and streamlined compliance management</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="font-size: 48px; font-weight: 700; color: var(--accent-cyan); margin: 0;">6 mo</p>
+                        <p style="font-weight: 600; margin-bottom: 4px;">Fast Implementation</p>
+                        <p style="font-size: 14px; margin: 0;">From fragmented systems to triple ISO certification readiness</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="font-size: 48px; font-weight: 700; color: var(--accent-cyan); margin: 0;">100%</p>
+                        <p style="font-weight: 600; margin-bottom: 4px;">Risk Visibility</p>
+                        <p style="font-size: 14px; margin: 0;">Complete identification of operational, environmental, and safety risks</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header animate" style="margin-top: 60px;">
+                <span class="section-label">Case Study</span>
+                <h2>Leading Maritime Agency</h2>
+                <p style="color: var(--text-secondary);">Maritime Services & Bunkering | United Arab Emirates</p>
+            </div>
+
+            <div class="card-grid stagger-children animate" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <div class="card" style="text-align: center; background: linear-gradient(135deg, var(--primary-dark), var(--primary-navy)); color: white;">
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">Industry</p>
+                    <p style="font-size: 18px; font-weight: 600; color: white; margin: 0;">Maritime Services</p>
+                </div>
+                <div class="card" style="text-align: center; background: linear-gradient(135deg, var(--primary-dark), var(--primary-navy)); color: white;">
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">Standards</p>
+                    <p style="font-size: 18px; font-weight: 600; color: white; margin: 0;">ISO 9001, 14001, 45001</p>
+                </div>
+                <div class="card" style="text-align: center; background: linear-gradient(135deg, var(--primary-dark), var(--primary-navy)); color: white;">
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">Locations</p>
+                    <p style="font-size: 18px; font-weight: 600; color: white; margin: 0;">2 Sites (Multi-Site)</p>
+                </div>
+                <div class="card" style="text-align: center; background: linear-gradient(135deg, var(--primary-dark), var(--primary-navy)); color: white;">
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">Duration</p>
+                    <p style="font-size: 18px; font-weight: 600; color: white; margin: 0;">6 Months</p>
+                </div>
+            </div>
+
+            <div class="card-grid animate" style="grid-template-columns: 1fr 1fr; margin-top: 32px;">
+                <div class="card">
+                    <h4 style="color: #c00; margin-bottom: 20px;">The Challenge</h4>
+                    <p style="margin-bottom: 16px;">Before working with Vissibl, AOP operated with:</p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding-left: 28px; position: relative; margin-bottom: 12px;"><span style="position: absolute; left: 0; color: #c00;">&#10007;</span> Fragmented HR and procurement systems with no integration</li>
+                        <li style="padding-left: 28px; position: relative; margin-bottom: 12px;"><span style="position: absolute; left: 0; color: #c00;">&#10007;</span> Critical processes managed through Excel spreadsheets</li>
+                        <li style="padding-left: 28px; position: relative; margin-bottom: 12px;"><span style="position: absolute; left: 0; color: #c00;">&#10007;</span> No controlled document management system</li>
+                        <li style="padding-left: 28px; position: relative; margin-bottom: 12px;"><span style="position: absolute; left: 0; color: #c00;">&#10007;</span> No systematic approach to risk identification</li>
+                        <li style="padding-left: 28px; position: relative; margin-bottom: 0;"><span style="position: absolute; left: 0; color: #c00;">&#10007;</span> Informal supplier management with no oversight</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--accent-cyan); margin-bottom: 20px;">The Results</h4>
+                    <p style="margin-bottom: 16px;">After Vissibl implementation:</p>
+                    <ul>
+                        <li>Triple certification ready (ISO 9001, 14001, 45001)</li>
+                        <li>Unified processes across both UAE locations</li>
+                        <li>Complete visibility into all operational risks</li>
+                        <li>Formal worker consultation mechanisms</li>
+                        <li>Structured vendor management with ongoing monitoring</li>
+                        <li>Comprehensive legal compliance register</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-light); padding: 40px; border-radius: 16px; margin-top: 32px; position: relative;" class="animate">
+                <div style="font-size: 72px; color: var(--accent-cyan); opacity: 0.3; position: absolute; top: 10px; left: 30px; font-family: Georgia, serif;">"</div>
+                <p style="font-size: 18px; font-style: italic; max-width: 800px; margin: 0 auto 24px; text-align: center; position: relative; z-index: 1;">The Vissibl AI platform allowed us to build a management system that truly reflects how we operate. We now have visibility into risks we didn't even know existed, and our teams across both locations work from the same playbook.</p>
+                <p style="text-align: center; font-weight: 600; margin: 0; color: var(--text-primary);">— Client Management Team</p>
+            </div>
+
+            <div class="card-grid stagger-children animate" style="margin-top: 40px;">
+                <div class="card">
+                    <div class="card-icon">
+                        <i data-lucide="workflow"></i>
+                    </div>
+                    <h4>Process-First Approach</h4>
+                    <p>Starting with detailed process mapping ensured the IMS reflected actual operations rather than generic templates.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i data-lucide="layers"></i>
+                    </div>
+                    <h4>Integrated Platform</h4>
+                    <p>Vissibl's unified system eliminated information silos and enabled cross-functional visibility across all departments.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i data-lucide="cloud"></i>
+                    </div>
+                    <h4>Multi-Site Coordination</h4>
+                    <p>Cloud-based access ensured both UAE locations operated with consistent processes and documentation.</p>
                 </div>
             </div>
         </div>
