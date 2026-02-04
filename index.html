@@ -555,6 +555,10 @@
             font-weight: bold;
         }
 
+        ul.no-check li::before {
+            content: none;
+        }
+
         /* Price Box */
         .price-box {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary-navy));
@@ -1278,7 +1282,7 @@
                 <div class="card">
                     <h4 style="color: #c00; margin-bottom: 20px;">The Challenge</h4>
                     <p style="margin-bottom: 16px;">Before working with Vissibl, AOP operated with:</p>
-                    <ul style="list-style: none; padding: 0;">
+                    <ul class="no-check" style="list-style: none; padding: 0;">
                         <li style="padding-left: 28px; position: relative; margin-bottom: 12px;"><span style="position: absolute; left: 0; color: #c00;">&#10007;</span> Fragmented HR and procurement systems with no integration</li>
                         <li style="padding-left: 28px; position: relative; margin-bottom: 12px;"><span style="position: absolute; left: 0; color: #c00;">&#10007;</span> Critical processes managed through Excel spreadsheets</li>
                         <li style="padding-left: 28px; position: relative; margin-bottom: 12px;"><span style="position: absolute; left: 0; color: #c00;">&#10007;</span> No controlled document management system</li>
